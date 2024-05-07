@@ -1,0 +1,60 @@
+import streamlit as st
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
+uri = "mongodb+srv://pandeakshat:wcANacPgO0a2LYqP@0cluster.ag68m1p.mongodb.net/?retryWrites=true&w=majority"
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
+def get_data():
+    db = client.Stash
+    items = db.Bookmark.find()
+    items = list(items)  # make hashable for st.cache_data
+    return items
+
+# Streamlit app code
+def main():
+
+    cat=st.radio('', ['All','Research', 'Social', 'Resource'], horizontal=True)
+
+    # Send a ping to confirm a successful connection
+    items = get_data()
+    if cat=='All':
+        for item in items:
+            col1, col2 = st.columns([4,1])
+            with col1:
+                with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
+                    st.write(item['basicInfo'])
+            with col2:
+                st.link_button('Link', item['link'])
+    if cat=='Research':
+        for item in items:
+            if item['category']=='Research':
+                col1, col2 = st.columns([4,1])
+                with col1:
+                    with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
+                        st.write(item['basicInfo'])
+                with col2:
+                    st.link_button('Link', item['link'])
+    if cat=='Social':
+        for item in items:
+            if item['category']=='Social':
+                col1, col2 = st.columns([4,1])
+                with col1:
+                    with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
+                        st.write(item['basicInfo'])
+                with col2:
+                    st.link_button('Link', item['link'])
+    if cat=='Resource':
+        for item in items:
+            if item['category']=='Resource':
+                col1, col2 = st.columns([4,1])
+                with col1:
+                    with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
+                        st.write(item['basicInfo'])
+                with col2:
+                    st.link_button('Link', item['link'])
+        
+
+
+if __name__ == "__main__":
+    main()

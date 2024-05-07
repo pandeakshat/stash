@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "stash"
+version = "0.1.0"
+description = "PandeAkshat's stash of resources"
+authors = ["Akshat <akshat.pande@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+streamlit = "^1.34.0"
+pymongo = "^4.7.2"
+matplotlib = "^3.8.4"
+streamlit-shadcn-ui = "^0.1.18"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
