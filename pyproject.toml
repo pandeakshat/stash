@@ -11,6 +11,9 @@ streamlit = "^1.34.0"
 pymongo = "^4.7.2"
 matplotlib = "^3.8.4"
 streamlit-shadcn-ui = "^0.1.18"
+psycopg2-binary = "^2.9.9"
+sqlalchemy = "^2.0.30"
+mysqlclient = "^2.2.4"
 
 
 [build-system]

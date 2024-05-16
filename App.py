@@ -1,60 +1,70 @@
 import streamlit as st
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
 
-uri = "mongodb+srv://pandeakshat:wcANacPgO0a2LYqP@0cluster.ag68m1p.mongodb.net/?retryWrites=true&w=majority"
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
-def get_data():
-    db = client.Stash
-    items = db.Bookmark.find()
-    items = list(items)  # make hashable for st.cache_data
-    return items
+    # Initialize connection.
+conn = st.connection('mysql', type='sql')
 
-# Streamlit app code
-def main():
+# Perform query.
+df = conn.query('SELECT * FROM collection;', ttl=600)
 
-    cat=st.radio('', ['All','Research', 'Social', 'Resource'], horizontal=True)
+# Print results.
 
-    # Send a ping to confirm a successful connection
-    items = get_data()
-    if cat=='All':
-        for item in items:
+cat=st.radio('Stash - PandeAkshat', ['All','Core','Research', 'Social', 'Resource', 'LLM', 'Courses'], horizontal=True)
+
+# Send a ping to confirm a successful connection
+if cat=='All':
+    for item in df.itertuples():
+        col1, col2 = st.columns([4,1])
+        with col1:
+            with st.expander(item.title + ' ----- [' + item.category + ']'):
+                st.write(item.information)
+        with col2:
+            st.link_button('Link', item.url)
+
+if cat=='Core':
+    for item in df.itertuples():
+        if item.category=='Core':
             col1, col2 = st.columns([4,1])
             with col1:
-                with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
-                    st.write(item['basicInfo'])
+                with st.expander(item.title + ' ----- [' + item.category + ']'):
+                    st.write(item.information)
             with col2:
-                st.link_button('Link', item['link'])
-    if cat=='Research':
-        for item in items:
-            if item['category']=='Research':
-                col1, col2 = st.columns([4,1])
-                with col1:
-                    with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
-                        st.write(item['basicInfo'])
-                with col2:
-                    st.link_button('Link', item['link'])
-    if cat=='Social':
-        for item in items:
-            if item['category']=='Social':
-                col1, col2 = st.columns([4,1])
-                with col1:
-                    with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
-                        st.write(item['basicInfo'])
-                with col2:
-                    st.link_button('Link', item['link'])
-    if cat=='Resource':
-        for item in items:
-            if item['category']=='Resource':
-                col1, col2 = st.columns([4,1])
-                with col1:
-                    with st.expander(item['title'] + ' ----- [' + item['category'] + ']'):
-                        st.write(item['basicInfo'])
-                with col2:
-                    st.link_button('Link', item['link'])
-        
+                st.link_button('Link', item.url)
 
 
-if __name__ == "__main__":
-    main()
+if cat=='Research':
+    for item in df.itertuples():
+        if item.category=='Research':
+            col1, col2 = st.columns([4,1])
+            with col1:
+                with st.expander(item.title + ' ----- [' + item.category + ']'):
+                    st.write(item.information)
+            with col2:
+                st.link_button('Link', item.url)
+if cat=='Social':
+    for item in df.itertuples():
+        if item.category=='Social':
+            col1, col2 = st.columns([4,1])
+            with col1:
+                with st.expander(item.title + ' ----- [' + item.category + ']'):
+                    st.write(item.information)
+            with col2:
+                st.link_button('Link', item.url)
+if cat=='Resource':
+    for item in df.itertuples():
+        if item.category=='Resource':
+            col1, col2 = st.columns([4,1])
+            with col1:
+                with st.expander(item.title + ' ----- [' + item.category + ']'):
+                    st.write(item.information)
+            with col2:
+                st.link_button('Link', item.url)
+
+if cat=='LLM':
+    for item in df.itertuples():
+        if item.category=='LLM':
+            col1, col2 = st.columns([4,1])
+            with col1:
+                with st.expander(item.title + ' ----- [' + item.category + ']'):
+                    st.write(item.information)
+            with col2:
+                st.link_button('Link', item.url)
